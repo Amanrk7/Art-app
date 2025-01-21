@@ -15,7 +15,6 @@ export const PageNavigation = () => {
       <header
         id="headerTag"
         style={{
-          width: "70%",
           alignItems: "center",
           marginTop: "-1px",
           height: "3em",
