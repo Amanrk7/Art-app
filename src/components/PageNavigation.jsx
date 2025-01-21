@@ -28,8 +28,7 @@ export const PageNavigation = () => {
             width: "100%",
             display: "flex",
             justifyContent: "space-between",
-            alignItems: "center",
-            margin: "0 3em",
+            alignItems: "center"
           }}
         >
           <div style={{ marginRight: "33px" }}>
