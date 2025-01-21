@@ -78,9 +78,12 @@ export const PageNavigation = () => {
             }}
           >
             {/* <button id="login">Login</button> */}
-            <button id="profile">
-              <i className="fa-regular fa-user"></i>
-            </button>
+            <Link to="profile" className="text-xl font-semibold">
+              <button id="profile">
+                <i className="fa-regular fa-user"></i>
+              </button>
+            </Link>
+
             <button id="cart" onClick={handleToggleCart}>
               <i className="fa-solid fa-cart-shopping"></i>
             </button>

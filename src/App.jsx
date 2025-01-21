@@ -1,13 +1,7 @@
-import React from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useLocation,
-} from "react-router-dom";
-import { Provider, useSelector } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Provider } from "react-redux";
 import { store } from "./Store";
-import { Header } from "./components/header";
 import { Container } from "./components/Container";
 import { ArtDetails } from "./components/ArtDetails";
 import "./fanta.css";
@@ -16,32 +10,30 @@ import { BuyPage } from "./components/buy";
 import { SellPage } from "./components/sell";
 import { SupportPage } from "./components/support";
 import { AboutPage } from "./components/about";
-import {InviteLogin} from "./InviteLogin";
-import { useState } from "react";
-// import { CartTab } from "./components/CartTab";
+import { Footer } from "./components/Footer";
+import SignIn from "./components/signIn";
+import Profile from "./components/profile";
+import { auth } from "./components/firebase";
 
 const App = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const AppContent = () => {
-    // const location = useLocation();
-    // const backgroundImage = useSelector((state) => state.app.backgroundImage);
-    // const isArtDetails = location.pathname.startsWith("/art/");
+  const [user, setUser] = useState(null);
 
-    // console.log("isArtDetails:", isArtDetails); // Log isArtDetails value
-    // console.log("backgroundImage:", backgroundImage); // Log backgroundImage value
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((currentUser) => {
+      setUser(currentUser);
+    });
 
-    return (
-      <div
-        id="appHeaderBack"
-        // style={{
-        //   backgroundColor: isArtDetails ? "black" : "",
-        //   backgroundImage: isArtDetails ? "" : `url(${backgroundImage})`,
-        // }}
-      >
-        <PageNavigation />
-        <Header />
-        {/* <Header isArtDetails={isArtDetails} /> */}
+    return () => unsubscribe();
+  }, []);
 
+  const handleSignIn = (signedInUser) => {
+    setUser(signedInUser);
+  };
+
+  const AppContent = () => (
+    <>
+      <PageNavigation />
+      <div id="appHeaderBack">
         <Routes>
           <Route path="/" element={<Container />} />
           <Route path="/art/:slug" element={<ArtDetails />} />
@@ -49,20 +41,18 @@ const App = () => {
           <Route path="/sell" element={<SellPage />} />
           <Route path="/support" element={<SupportPage />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/userLogin" element={<SignIn />} />
+          <Route path="/profile" element={<Profile user={user} />} />
         </Routes>
       </div>
-    );
-  };
+      <Footer />
+    </>
+  );
 
   return (
     <Provider store={store}>
       <Router>
-        {isAuthenticated ? (
-          <AppContent />
-        ) : (
-          <InviteLogin onLogin={setIsAuthenticated} />
-        )}
-        {/* <CartTab/> */}
+        {user ? <AppContent /> : <SignIn onSignIn={handleSignIn} />}
       </Router>
     </Provider>
   );

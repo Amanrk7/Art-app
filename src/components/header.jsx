@@ -8,7 +8,6 @@ import Cart from "./cart"; // Import the Cart component
 
 // export const Header = React.memo(({ isArtDetails }) => {
 export const Header = React.memo(({ isArtDetails }) => {
-
   const dispatch = useDispatch();
   const category = useSelector((state) => state.app.category);
 
@@ -17,23 +16,17 @@ export const Header = React.memo(({ isArtDetails }) => {
     dispatch(setCategory(newCategory));
   };
 
- 
   return (
     <>
       <div id="headerDiv">
         <div>
           <div>
-            <h1 >
-              COLLECT AND SELL
-            </h1>
+            <h1>COLLECT AND SELL</h1>
           </div>
 
           <div>
-            <h1>
-              DIGITAL ARTS AT YOUR OWN PRICE
-            </h1>
+            <h1>DIGITAL ARTS AT YOUR OWN PRICE</h1>
           </div>
-
         </div>
 
         {/* {!isArtDetails && (

@@ -100,7 +100,7 @@ const ArtCard = ({ data }) => {
       </div>
 
       {/* ---------img-art------- */}
-      <div style={{ width: "50%" }}>
+      <div id="img_display_art" style={{ width: "50%" }}>
         <img
           src={image}
           alt="art1"
@@ -109,9 +109,21 @@ const ArtCard = ({ data }) => {
       </div>
 
       {/* ----------buy btn-------- */}
-      <div style={{ width: "20%" , display:"flex"}}>
-        <div style={{width:"78%"}}>
-          <input type="number" placeholder="min-value-10!!" style={{width:"100%", border:"none", background:"transparent"}}/>
+      <div style={{ width: "20%", display: "flex" }}>
+        <div style={{ width: "81%" }}>
+          <input
+            type="number"
+            placeholder="min-value-10!!"
+            style={{
+              width: "100%",
+              border: "none",
+              background: "transparent",
+              color: "#615e5e",
+              fontWeight: "900",
+              fontFamily: "circular",
+              letterSpacing: " .3px",
+            }}
+          />
         </div>
         <span class="material-symbols-outlined">arrow_outward</span>
       </div>

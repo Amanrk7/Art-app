@@ -3,14 +3,16 @@ import { Main2 } from "./main2";
 import { Main3 } from "./main3";
 import { Main4 } from "./main4";
 import { products } from "../Products";
+import { Header } from "./header";
 
 export function Container() {
   return (
     <>
-      <div
-        style={{ padding: "20px 18px 0px 42px", backdropFilter: "blur(20px)" }}
-      >
+      <Header />
 
+      <div
+        style={{ padding: "24px 18px 0px 42px", backdropFilter: "blur(20px)" }}
+      >
         {/* ------trending today----- */}
         <Main1 data={products} />
 
