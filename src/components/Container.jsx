@@ -10,9 +10,7 @@ export function Container() {
     <>
       <Header />
 
-      <div
-        style={{ padding: "24px 18px 0px 42px", backdropFilter: "blur(20px)" }}
-      >
+      <div id="main1-parent">
         {/* ------trending today----- */}
         <Main1 data={products} />
 

@@ -21,10 +21,8 @@ export function Main1({ data }) {
 
     <>
       {data.map((item, index) => (
-        <div id="main1" style={{ marginBottom: "43px", display:"flex"}}>
+        <div id="main1">
           <ArtCard key={index} data={item} />
-
-          
         </div>
       ))}
     </>

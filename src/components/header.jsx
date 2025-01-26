@@ -19,13 +19,27 @@ export const Header = React.memo(({ isArtDetails }) => {
   return (
     <>
       <div id="headerDiv">
-        <div>
+        <div className="headerdiv-original-child">
           <div>
-            <h1>COLLECT AND SELL</h1>
+            <h1 id="header-div-h1-1">COLLECT AND SELL</h1>
           </div>
 
           <div>
-            <h1>DIGITAL ARTS AT YOUR OWN PRICE</h1>
+            <h1 id="header-div-h1-2">DIGITAL ARTS AT YOUR OWN PRICE</h1>
+          </div>
+        </div>
+
+        <div className="headerDiv-hidden-mobile-child">
+          <div>
+            <h1 id="header-div-h1-1">COLLECT AND </h1>
+          </div>
+
+          <div>
+            <h1 id="header-div-h1-1">SELL DIGITAL ARTS</h1>
+          </div>
+
+          <div>
+            <h1 id="header-div-h1-2"> AT YOUR OWN PRICE</h1>
           </div>
         </div>
 

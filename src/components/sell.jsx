@@ -5,12 +5,15 @@ import emailjs from "emailjs-com";
 import { auth, db, setDoc, doc } from "./firebase";
 
 export const SellPage = () => {
+  const [textInput, setTextInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [files, setFiles] = useState([]);
   const [error, setError] = useState(null);
   const [fileUploaded, setFileUploaded] = useState(false);
   const [previewUrls, setPreviewUrls] = useState([]);
   const [user, setUser] = useState(null); // Add user state
+  const [priceErr, setPriceErr] = useState(false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true); // Add state for button
 
   const targetRef = useRef(null);
 
@@ -21,17 +24,16 @@ export const SellPage = () => {
     return () => unsubscribe();
   }, []);
 
+  useEffect(() => {
+    // Check if all conditions are met to enable the button
+    const isNumber = !isNaN(textInput) && textInput !== "";
+    const isValidPrice = isNumber && parseFloat(textInput) >= 10;
+    setIsButtonDisabled(!(files.length > 0 && isValidPrice));
+  }, [textInput, files]);
+
   const correctFileType = (file) => {
     const allowedTypes = ["application/pdf", "image/jpeg", "image/png"];
-    if (file && allowedTypes.includes(file.type)) {
-      console.log("File is valid. Proceed with upload.");
-      return true;
-    } else {
-      console.error(
-        "Invalid file type. Please upload a PDF, JPG, or PNG file."
-      );
-      return false;
-    }
+    return file && allowedTypes.includes(file.type);
   };
 
   const handleFileChange = (e) => {
@@ -64,7 +66,6 @@ export const SellPage = () => {
 
   const handleUpload = async () => {
     if (files.length > 0 && user) {
-      // Ensure user is authenticated
       setLoading(true);
       try {
         const uploadPromises = files.map(async (file) => {
@@ -77,6 +78,7 @@ export const SellPage = () => {
             fileName: file.name,
             fileUrl: downloadURL,
             uploadedAt: new Date(),
+            textInput: textInput,
           });
 
           sendEmail(downloadURL);
@@ -86,9 +88,11 @@ export const SellPage = () => {
         setFileUploaded(true);
         setTimeout(() => {
           setFileUploaded(false);
+          setInputSubmitted(false);
         }, 7000);
       } catch (error) {
         setLoading(false);
+        setError(error);
         console.error("Error uploading file: ", error);
       }
     }
@@ -123,7 +127,6 @@ export const SellPage = () => {
   return (
     <div>
       <div
-        ref={targetRef}
         style={{
           width: "100%",
           display: "block",
@@ -132,7 +135,9 @@ export const SellPage = () => {
           transition: "3s ease-in",
         }}
       ></div>
+
       <div
+        ref={targetRef}
         style={{
           color: "black",
           // backgroundColor: "#e7e7e7",
@@ -142,6 +147,7 @@ export const SellPage = () => {
           alignItems: "center",
           flexDirection: "column",
           justifyContent: "space-evenly",
+          transition: ".7s ease-in",
         }}
       >
         <div
@@ -156,35 +162,46 @@ export const SellPage = () => {
             {" "}
             SELL AT YOUR PRICE
           </h1>
+
+          <div id="sellPage-header-hidden-mobile">
+            <div>
+              <h1 style={{ fontSize: "34px" }}>SELL</h1>
+            </div>
+            <div>
+              <h1 style={{ fontSize: "40px" }}>AT YOUR</h1>
+            </div>
+            <div>
+              <h1 style={{ fontSize: "46px" }}>OWN PRICE</h1>
+            </div>
+          </div>
         </div>
-        <div
-          style={{
-            width: "50%",
-            height: "40%",
-            alignContent: "center",
-            justifyItems: "center",
-            borderRadius: "33px",
-            boxShadow:"6px 5px 8px black",
-          }}
-        >
-          <div
-            style={{
-              width: "100%",
-              display: "flex",
-              gap: "9px",
-              alignItems: "center",
-            }}
-          >
+
+        <div className="img-upload-parent-box">
+          <div className="img-upload-div-child1">
             <h3
               style={{
-                paddingLeft: "42px",
+                paddingLeft: "7px",
                 paddingBottom: "27px",
-                fontFamily: "circular",
+                fontFamily: "Phonk Contrast DEMO",
+                width: "100%",
               }}
             >
-              upload pdf docs here!!
+              Showcase your best piece
             </h3>
-            <span
+            <div style={{ width: "100%", paddingLeft: "7px" }}>
+              <div className="upload-img-div-rules-header">
+                <h3>Steps to upload</h3>
+              </div>
+              <div className="upload-img-div-rules">
+                <ul>
+                  <li>Select your clear art image.</li>
+                  <li>Set suitable price for the piece.</li>
+                  <li>Hit upload.</li>
+                  <li>Woosh, u did it!.</li>
+                </ul>
+              </div>
+            </div>
+            {/* <span
               id="upload_btn_info_toggle"
               style={{
                 paddingBottom: "30px",
@@ -200,24 +217,11 @@ export const SellPage = () => {
                   borderRadius: "57%",
                 }}
               ></i>
-            </span>
+            </span> */}
           </div>
-
           {/* --img upload------ */}
-
-          <div
-            style={{
-              display: "flex",
-              gap: "2px",
-              border: "0.9px solid",
-              borderRadius: "33px",
-              width: "90%",
-              alignItems: "center",
-              justifyContent: "space-between",
-              padding: "20px",
-            }}
-          >
-            <div>
+          <div className="imgUpload-section">
+            <div className="img-selection" style={{ width: "45%" }}>
               <input
                 type="file"
                 onChange={handleFileChange}
@@ -230,19 +234,83 @@ export const SellPage = () => {
                   letterSpacing: " .3px",
                 }}
               />
-              {fileUploaded && <p style={{ color: "green" }}>Success</p>}
-              {error && <p style={{ color: "red" }}>{error}</p>}
             </div>
-            <div onClick={handleUpload} disabled={loading}>
+            <div className="price-input" style={{ width: "45%" }}>
+              <input
+                type="number"
+                value={textInput}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  const isNumber = !isNaN(value) && value !== "";
+                  const isValidPrice = isNumber && parseFloat(value) >= 10;
+
+                  setPriceErr(!isValidPrice);
+                  setTextInput(value);
+                }}
+                placeholder="Enter sell price"
+                style={{
+                  height: "3em",
+                  background: "rgb(255 255 255 / 0%)",
+                  border: "0.9px solid rgb(195, 195, 195)",
+                  color: "#615e5e",
+                  fontWeight: "900",
+                  fontFamily: "circular",
+                  letterSpacing: " .3px",
+                  borderTop: "none",
+                  borderLeft: "none",
+                  borderRight: "none",
+                }}
+              />
+              {priceErr && (
+                <p
+                  style={{
+                    color: " #df4d4d",
+                    fontFamily: "circular",
+                    transition: ".9s ease-in-out",
+                  }}
+                >
+                  Price should be 10 or more!
+                </p>
+              )}
+            </div>
+
+            <div
+              id="btn_upload_file-parent"
+              onClick={handleUpload}
+              disabled={isButtonDisabled || loading} // Updated to include isButtonDisabled
+              style={{
+                pointerEvents: isButtonDisabled ? "none" : "auto",
+              }}
+            >
               {loading ? (
                 <div className="loader"></div>
               ) : (
-                <span id="btn_upload_file" class="material-symbols-outlined">
+                <span
+                  id="btn_upload_file"
+                  class="material-symbols-outlined hover:white"
+                  style={{
+                    backgroundColor: isButtonDisabled ? "#b19f63" : "#ffdd6a",
+                    color: isButtonDisabled ? "#856a6a" : "#000000",
+                    transition: ".3s ease-in",
+                  }}
+                >
                   arrow_outward
                 </span>
               )}
             </div>
-          </div>
+          </div>{" "}
+          {fileUploaded && <p style={{ color: "green" }}>Success</p>}
+          {error && (
+            <p
+              style={{
+                color: " #df4d4d",
+                fontFamily: "circular",
+                transition: ".9s ease-in-out",
+              }}
+            >
+              {error}
+            </p>
+          )}
         </div>
       </div>
 

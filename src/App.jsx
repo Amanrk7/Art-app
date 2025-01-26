@@ -50,11 +50,11 @@ const App = () => {
   );
 
   return (
-    <Provider store={store}>
-      <Router>
-        {user ? <AppContent /> : <SignIn onSignIn={handleSignIn} />}
-      </Router>
-    </Provider>
+      <Provider store={store}>
+        <Router basename="/Art-app">
+          {user ? <AppContent /> : <SignIn onSignIn={handleSignIn} />}
+        </Router>
+      </Provider>
   );
 };
 

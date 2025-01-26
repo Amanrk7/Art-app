@@ -4,128 +4,85 @@ import { Link } from "react-router-dom";
 const ArtCard = ({ data }) => {
   const { name, price, image, slug, description } = data;
 
+  // Disable right-click on the entire document
+  React.useEffect(() => {
+    const handleContextMenu = (e) => {
+      e.preventDefault();
+    };
+    document.addEventListener("contextmenu", handleContextMenu);
+    return () => {
+      document.removeEventListener("contextmenu", handleContextMenu);
+    };
+  }, []);
+
   return (
-    // <div
-    //   style={{
-    //     display: "flex",
-    //     flexDirection: "column",
-    //     width: "282.5px",
-    //     marginRight: "16px",
-    //     height: "304px",
-    //     borderRadius: "23px",
-    //     backgroundColor: "rgb(32 32 32/1)",
-    //   }}
-    // >
-    //   {/* ----------img-part-------- */}
-    //   <div style={{ width: "100%", height: "-webkit-fill-available" }}>
-    //     <Link to={`/art/${slug}`}>
-    //       <img
-    //         src={image}
-    //         alt="image"
-    //         style={{ width: "100%", height: "100%" }}
-    //       />
-    //     </Link>
-    //   </div>
-
-    //   {/* ----------info-part-------- */}
-    //   <div
-    //     style={{
-    //       display: "flex",
-    //       flexDirection: "column",
-    //       width: "100%",
-    //       height: "52%",
-    //       padding: "16px",
-    //       borderRadius: "12px",
-    //     }}
-    //   >
-    //     {/* ---seller name---- */}
-    //     <div style={{ width: "100%", height: "50%" }}>{name}</div>
-
-    //     {/* ---prices-etc- */}
-    //     <div
-    //       style={{
-    //         display: "flex",
-    //         flexDirection: "row",
-    //         width: "100%",
-    //         height: "50%",
-    //       }}
-    //     >
-    //       <div
-    //         style={{
-    //           display: "flex",
-    //           flexDirection: "column",
-    //           height: "100%",
-    //           width: "50%",
-    //           alignItems: "flex-start",
-    //         }}
-    //       >
-    //         <div>floor</div>
-    //         <div>{price} ETH</div>
-    //       </div>
-    //       <div
-    //         style={{
-    //           display: "flex",
-    //           flexDirection: "column",
-    //           height: "100%",
-    //           width: "50%",
-    //           alignItems: "flex-end",
-    //         }}
-    //       >
-    //         <div>7 days vol</div>
-    //         <div>{price} ETH</div>
-    //       </div>
-    //     </div>
-    //   </div>
-    // </div>
-
     <>
       {/* ---------img-art-description------- */}
-      <div
-        id="main1-1st-content"
-        style={{
-          display: "flex",
-          width: "30%",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <div>
-          <h3>Title: {name}</h3>
+      <div id="main1-1st-content">
+        <div className="img-art-desc">
+          <div>
+            <h3>Title: {name}</h3>
+          </div>
+          <div>current price: {price}ETH</div>
+          <div>
+            <p>About this piece: {description}</p>
+          </div>
         </div>
-        <div>current price: {price}</div>
+        {/* ----------buy btn-------- */}
         <div>
-          <p>About this piece: {description}</p>
+          <div>
+            <input
+              type="number"
+              placeholder="min-value-10!!"
+              style={{
+                width: "100%",
+                border: "none",
+                background: "transparent",
+                color: "#615e5e",
+                fontWeight: "900",
+                fontFamily: "circular",
+                letterSpacing: " .3px",
+              }}
+            />
+          </div>
+          <span id="container_buy_btn" className="material-symbols-outlined">
+            arrow_outward
+          </span>
         </div>
       </div>
 
       {/* ---------img-art------- */}
-      <div id="img_display_art" style={{ width: "50%" }}>
+      <div id="img_display_art">
         <img
+          id="img_display_art_img"
           src={image}
           alt="art1"
-          style={{ width: "100%", borderRadius: "217px" }}
+          style={{
+            WebkitTouchCallout: "none",
+            WebkitUserSelect: "none",
+            KhtmlUserSelect: "none",
+            MozUserSelect: "none",
+            MsUserSelect: "none",
+            userSelect: "none",
+            WebkitUserDrag: "none",
+            userDrag: "none",
+            // pointerEvents: "none",
+          }}
         />
-      </div>
-
-      {/* ----------buy btn-------- */}
-      <div style={{ width: "20%", display: "flex" }}>
-        <div style={{ width: "81%" }}>
-          <input
-            type="number"
-            placeholder="min-value-10!!"
-            style={{
-              width: "100%",
-              border: "none",
-              background: "transparent",
-              color: "#615e5e",
-              fontWeight: "900",
-              fontFamily: "circular",
-              letterSpacing: " .3px",
-            }}
-          />
-        </div>
-        <span class="material-symbols-outlined">arrow_outward</span>
+        {/* <img
+          src="transparent-image.png"
+          alt=""
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            pointerEvents: "none",
+            borderRadius: "217px",
+            // boxShadow:"0 4px 6px 6px black",
+          }}
+        /> */}
       </div>
     </>
   );
