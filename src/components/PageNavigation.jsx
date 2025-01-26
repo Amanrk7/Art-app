@@ -18,6 +18,7 @@ export const PageNavigation = () => {
             width: "100%",
             display: "flex",
             justifyContent: "space-between",
+
             alignItems: "center",
             // margin: "0 3em",
           }}
@@ -55,9 +56,7 @@ export const PageNavigation = () => {
             </nav>
           </div>
 
-          <div
-            className="header-right"
-          >
+          <div className="header-right">
             {/* <button id="login">Login</button> */}
             <Link to="profile" className="text-xl font-semibold">
               <button id="profile">
