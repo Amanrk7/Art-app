@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+// import { useSelector, useDispatch } from "react-redux";
 import artiumhiveLogo from "../assets/images/artiumhiveLogo.png";
-import { toggleStatusTab } from "../stores/cart"; // Import the toggleStatusTab action
-import Cart from "./cart"; // Import the Cart component
+// import { toggleStatusTab } from "../stores/cart"; // Import the toggleStatusTab action
+// import Cart from "./cart"; // Import the Cart component
 export const PageNavigation = () => {
   const handleToggleCart = () => {
     console.log("Cart button clicked!"); // Log the click event

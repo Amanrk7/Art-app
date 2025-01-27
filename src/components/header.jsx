@@ -1,10 +1,10 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { SlideShow } from "./SlideShow";
-import { SubNav } from "./SubNav";
-import { setCategory } from "../Store";
-import { toggleStatusTab } from "../stores/cart"; // Import the toggleStatusTab action
-import Cart from "./cart"; // Import the Cart component
+// import { SlideShow } from "./SlideShow";
+// import { SubNav } from "./SubNav";
+// import { setCategory } from "../Store";
+// import { toggleStatusTab } from "../stores/cart"; // Import the toggleStatusTab action
+// import Cart from "./cart"; // Import the Cart component
 
 // export const Header = React.memo(({ isArtDetails }) => {
 export const Header = React.memo(({ isArtDetails }) => {

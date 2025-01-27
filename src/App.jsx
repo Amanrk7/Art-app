@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Provider } from "react-redux";
-import { store } from "./Store";
+// import { store } from "./Store";
 import { Container } from "./components/Container";
 import { ArtDetails } from "./components/ArtDetails";
 import "./fanta.css";
